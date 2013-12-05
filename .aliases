@@ -10,7 +10,7 @@ alias -- -="cd -"
 alias d="cd ~/Documents/Dropbox"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
-alias p="cd ~/projects"
+alias p="cd ~/Development"
 alias g="git"
 alias h="history"
 alias j="jobs"
@@ -147,3 +147,10 @@ alias reload="exec $SHELL -l"
 
 # Faster npm for europeans
 command -v npm > /dev/null && alias npme="npm --registry http://registry.npmjs.eu"
+
+# Own aliasses
+alias devMagneds='ssh -A -R 9876:localhost:9876 dev.magneds.com'
+alias testMagneds='ssh -A test.magneds.com'
+alias optimel1='ssh -A optimel1.magneds.com'
+alias optimel2='ssh -A optimel2.magneds.com'
+alias ssh='~/bin/ssh'
