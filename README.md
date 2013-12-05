@@ -1,4 +1,4 @@
-# Mathias’s dotfiles
+# Marco's dotfiles
 
 ## Installation
 
@@ -98,6 +98,7 @@ Suggestions/improvements
 
 ## Thanks to…
 
+* [Mathias Bynens](http://mathiasbynens.be/) and his [dotfiles](https://github.com/mathiasbynens/dotfiles)
 * @ptb and [his _OS X Lion Setup_ repository](https://github.com/ptb/Mac-OS-X-Lion-Setup)
 * [Ben Alman](http://benalman.com/) and his [dotfiles repository](https://github.com/cowboy/dotfiles)
 * [Chris Gerke](http://www.randomsquared.com/) and his [tutorial on creating an OS X SOE master image](http://chris-gerke.blogspot.com/2012/04/mac-osx-soe-master-image-day-7.html) + [_Insta_ repository](https://github.com/cgerke/Insta)
