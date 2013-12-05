@@ -1,0 +1,54 @@
+#!/bin/bash
+
+function listProjects()
+{
+	echo "Available projects: "
+	echo "- all (sync all projects at once)"
+	for PROJECT in *; do
+		if [ -d $PROJECT ] && [ -f "$PROJECT/tools/autosync.php" ]; then
+			echo "- ${PROJECT}"
+		fi
+	done
+}
+
+function setTitle()
+{
+	echo -n -e "\033]0;$1\007"
+}
+
+function checkSetup()
+{
+	PERSON=`whoami`
+	PROJ=`echo $1 | tr '[:upper:]' '[:lower:]'`
+	/usr/bin/ssh dev.magneds.com bash <<ENDSSH
+	if [ ! -d /sites/$PERSON.$PROJ.dev.magneds.com ]; then
+		echo "creating /sites/${PERSON}.${PROJ}.dev.magneds.com"
+		mkdir -p /sites/$PERSON.$PROJ.dev.magneds.com
+	fi
+ENDSSH
+}
+
+PHP=`which php`
+cd ~/Development
+clear
+
+if [ "${1}" = "" ]; then
+	listProjects
+elif [ "${1}" = "all" ]; then
+	for PROJECT in ~/Development/*/tools/autosync.php; do
+		PARENT=`dirname $PROJECT`
+		GPARENT=`dirname $PARENT`
+		checkSetup `basename $GPARENT`
+		osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down' && osascript -e "tell application \"Terminal\" to do script \"cd $(dirname $PROJECT) && php autosync.php\" in selected tab of the front window";
+	done
+else
+	if [ -f "${1}/tools/autosync.php" ]; then
+		cd "${1}/tools"
+		setTitle $1
+		checkSetup $1
+		$PHP autosync.php
+	else
+		echo -e "PROJECT '${1}' NOT FOUND"
+		listProjects
+	fi
+fi

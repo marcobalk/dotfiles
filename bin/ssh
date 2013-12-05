@@ -1,0 +1,20 @@
+#!/bin/sh
+rm -f $HOME/.bin/edit_server.php.port
+ID=`date '+%Y%m%d%H%M%S'`
+php $HOME/.bin/edit_server.php ${ID} &
+while [ ! -f $HOME/.bin/edit_server.php.port ] ; do
+  sleep 1
+done
+PORTNR=`cat $HOME/.bin/edit_server.php.port && rm -f $HOME/.bin/edit_server.php.port`
+PID=`ps | grep "${ID}" | grep "edit_server.php" | awk '{ print $1; }'`
+#echo "Port ${PORTNR} PID ${PID}"
+rm -f $HOME/.bin/edit_server.php.port
+
+if [ -f ~/.bin/ssh_tools ]; then
+	export LC_TOOLS=`cat ~/.bin/ssh_tools`
+#	echo "Providing SSH tools"
+fi
+
+/usr/bin/ssh -R 1233:127.0.0.1:${PORTNR} -R 52698:127.0.0.1:52698 $*
+kill ${PID}
+

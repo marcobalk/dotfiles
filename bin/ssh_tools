@@ -1,0 +1,133 @@
+#!/bin/bash
+
+function printpadded()
+{
+	if [ "${3}" = "" ] || [ $3 -lt $((${#1} + ${#2})) ]; then
+		LENGTH=$((${#1} + ${#2} + 5))
+	else
+		LENGTH=$3;
+	fi
+
+	PAD=$(printf '%0.1s' "-"{1..100});
+	printf "%s %s %s\n" "${1}" ${PAD:0:$(($LENGTH - ${#1} - ${#2}))} "${2}"
+}
+
+function blacklist()
+{
+	#BLACKLIST_FILE=/sites/libs/webdesq/blacklist.php
+	BLACKLIST_FILE=/sites/stdlib/storage/waf_blacklist.txt
+	if [ -e $BLACKLIST_FILE ]; then
+		if [ "${1}" != "" ]; then
+			if [ "$(sudo grep ${1} ${BLACKLIST_FILE})" != "" ]; then
+				echo "${1} is already blacklisted";
+			else
+				echo "${1}" | sudo tee -a $BLACKLIST_FILE && echo "OK" || echo "Failed";
+			fi
+		else
+			sudo cat $BLACKLIST_FILE;
+		fi
+	else
+		echo "Blacklist file not found";
+	fi
+}
+
+function revclean()
+{
+	OPTIMAL_REV_COUNT=3;
+	OPTIMAL_REV_SIZE=250;
+	CURRENT_FREE=$(df -h | grep /)
+	CURRENT_FOOTPRINT=$(sudo du -sB 1M /sites | cut -f1)
+	COUNT=0
+
+	echo -e "Clean up all sites which has a 'revs' directory containing over ${OPTIMAL_REV_COUNT} revisions and uses over ${OPTIMAL_REV_SIZE}MB on disk\n";
+
+	for SITE in /sites/*/revs; do
+		SITE_PATH=$(dirname $SITE);
+		SITE_NAME=$(basename $SITE_PATH);
+		REV_COUNT=$(ls -1 $SITE | wc -l);
+		FOOTPRINT=$(sudo du -sB 1M $SITE | cut -f1);
+		if [ $REV_COUNT -gt $OPTIMAL_REV_COUNT ] && [ $FOOTPRINT -gt $OPTIMAL_REV_SIZE ]; then
+			echo -e "${SITE_NAME}\n\trevisions: ${REV_COUNT} revisions\n\tfootprint: ${FOOTPRINT}M\n\taction:    cleanup";
+
+			let REMOVE_COUNT=$REV_COUNT-$OPTIMAL_REV_COUNT;
+			KEEP_LIST=$(ls -1 $SITE | tail -n$OPTIMAL_REV_COUNT);
+			REMOVE_LIST=$(ls -1 $SITE | head -n$REMOVE_COUNT);
+			echo -e "\tmaintain:  $(echo ${KEEP_LIST}) (${OPTIMAL_REV_COUNT} revision(s))";
+			echo -e "\tremove:    $(echo ${REMOVE_LIST}) (${REMOVE_COUNT} revision(s))";
+			echo -en "\tdo you want to remove the suggested revision(s)? [yN] ";
+			read ANSWER;
+			if [ "${ANSWER}" = "y" ]; then
+				echo -e "\tcleaning up"
+				for REVISION in $REMOVE_LIST; do
+					REV_FOOTPRINT=$(sudo du -sB 1M $SITE/$REVISION | cut -f1);
+					echo -en "\t - removing ${REVISION} (${REV_FOOTPRINT}MB) ";
+					sudo rm -rf $SITE/$REVISION 2> /dev/null && echo "[DONE]" || echo "[FAILED]";
+					let COUNT=$COUNT+1;
+				done
+			else
+				echo -e "\tok, leaving ${SITE_NAME} untouched"
+			fi
+			echo
+		elif [ $REV_COUNT -gt 0 ]; then
+			echo -en "${SITE_NAME} (${REV_COUNT} revisions, footprint ${FOOTPRINT}MB)\n";
+		else
+			echo -en "${SITE_NAME} (no revisions)\n";
+		fi
+	done
+
+	let DELTA_FOOTPRINT=CURRENT_FOOTPRINT-$(sudo du -sB 1M /sites | cut -f1);
+
+	echo -e "Removed ${COUNT} revisions:\n\tdisk usage before: ${CURRENT_FREE}\n\tdisk usage after:  $(df -h | grep \/)\n\tdisk space freed:  ${DELTA_FOOTPRINT}MB";
+}
+
+function activity()
+{
+	echo "Calculating last activity of all websites (excluding logs, cache, storage):";
+	echo -e "$(
+	for SITE in /sites/*; do
+		SITE_NAME=$(basename $SITE);
+		CHANGE=$(sudo du --time -sh $SITE/* | grep -vE 'logs|cache|storage$' | sort -k2 | tail -1 | cut -f2);
+		printpadded "${SITE_NAME}" "${CHANGE}" 68;
+	done)" | sort -k3 -k4 -r;
+}
+
+function footprint()
+{
+	echo "Calculating footprint of each website:"
+	echo -e "$(
+	for SITE in /sites/*; do
+		SITE_NAME=$(basename $SITE);
+		FOOTPRINT=$(sudo du -sB 1M $SITE | cut -f1);
+		printpadded $SITE_NAME "${FOOTPRINT}M" 68;
+	done)" | sort -k3 -k4 -r -n;
+}
+
+function installrsub()
+{
+	echo "Trying to install rsub"
+	RSUB_FILE=~/bin/rsub
+	if [[ ! -e $RSUB_FILE ]]; then
+		RSUB_PATH=$(dirname $RSUB_FILE);
+		if [[ ! -d $RSUB_PATH ]]; then
+			mkdir -p $RSUB_PATH
+		fi
+		wget -O $RSUB_FILE https://raw.github.com/aurora/rmate/master/rmate
+	else
+		echo "rsub already exists"
+	fi
+	chmod +x $RSUB_FILE
+	. ~/.profile
+	if [[ -e $RSUB_FILE ]]; then
+		echo "rsub intstalled"
+	else
+		echo "something went wrong"
+	fi
+}
+
+function updateVoucher()
+{
+	if [[ ! -d ~/voucher_template ]]; then
+		mkdir -p ~/voucher_template
+	fi
+	curl -X GET http://$1/handler/vouchertemplate.php?template=LIBS_ROOT/template/voucher/$2.html > ~/voucher_template/$3
+}

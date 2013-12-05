@@ -1,0 +1,23 @@
+#!/bin/bash
+
+AMOUNT=$1
+LENGTH=$2
+
+if [ -z "${AMOUNT}" ] || [ -z "${LENGTH}" ] ; then
+	echo 'Usage: passgen <AMOUNT> <LENGTH>'
+	exit 1
+fi
+
+if ! [[ "$AMOUNT" =~ ^[0-9]+$ ]] || [ $AMOUNT -eq 0 ] ; then
+	echo 'Please specify the amount of password needed'
+	echo 'Usage: passgen <AMOUNT> <LENGTH>'
+	exit 1
+fi
+
+if ! [[ "$LENGTH" =~ ^[0-9]+$ ]] || [ $LENGTH -eq 0 ] ; then
+	echo 'Please specify the length of the passwords needed'
+	echo 'Usage: passgen <AMOUNT> <LENGTH>'
+	exit 1
+fi
+
+LC_ALL=C tr -dc 'A-Za-z0-9_!@#$%^&*()\-+=' <  /dev/urandom | fold -w $LENGTH | head -n $AMOUNT
