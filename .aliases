@@ -7,10 +7,11 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # Shortcuts
-alias d="cd ~/Documents/Dropbox"
+alias d="cd ~/Dropbox"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias p="cd ~/Development"
+alias gd="cd ~/Google\ Drive"
 alias g="git"
 alias h="history"
 alias j="jobs"
@@ -154,4 +155,4 @@ alias devMagneds='ssh -A -R 9876:localhost:9876 dev.magneds.com'
 alias testMagneds='ssh -A test.magneds.com'
 alias optimel1='ssh -A optimel1.magneds.com'
 alias optimel2='ssh -A optimel2.magneds.com'
-alias ssh='~/bin/ssh'
+alias ssh='~/.bin/ssh'

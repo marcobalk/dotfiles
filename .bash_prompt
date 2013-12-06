@@ -43,13 +43,20 @@ export WHITE
 export BOLD
 export RESET
 
-# function parse_git_dirty() {
-# 	[[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
-# }
+function parse_git_dirty() {
+	[[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
+}
 
-# function parse_git_branch() {
-# 	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
-# }
+function parse_branch()
+{
+	if [[ $(git branch 2> /dev/null) ]]; then
+		echo " on" $PURPLE$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/");
+	fi
 
-export PS1="\[${BOLD}${MAGENTA}\]\u \[$WHITE\]@ \[$GREEN\]\w\[$WHITE\]\n\$ \[$RESET\]"
+	if [[ $(hg branch 2> /dev/null) ]]; then
+		echo " on" $PURPLE$(hg branch 2> /dev/null);
+	fi
+}
+
+export PS1="\[${BOLD}${MAGENTA}\]\u \[$WHITE\]@ \[$GREEN\]\w\[$WHITE\]\$(parse_branch)\[$WHITE\]\n\$ \[$RESET\]"
 export PS2="\[$ORANGE\]→ \[$RESET\]"
