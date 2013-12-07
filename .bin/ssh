@@ -15,6 +15,6 @@ if [ -f ~/.bin/ssh_tools ]; then
 #	echo "Providing SSH tools"
 fi
 
-/usr/.bin/ssh -R 1233:127.0.0.1:${PORTNR} -R 52698:127.0.0.1:52698 $*
+/usr/bin/ssh -R 1233:127.0.0.1:${PORTNR} -R 52698:127.0.0.1:52698 $*
 kill ${PID}
 
