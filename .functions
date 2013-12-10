@@ -323,3 +323,18 @@ function sanitize() {
 		fi
 	done
 }
+
+# hg clone and create dir en open SourceTree
+function hgc() {
+	if [[ -z "$1" ]]; then
+		echo "Specify project"
+	else
+		p # Go to Development dir (see .aliases)
+		local projDir="$(tr '[:lower:]' '[:upper:]' <<< ${1:0:1})${1:1}" # Uppercase first letter of project
+		hg clone ssh://hg@code.magneds.com/$1 $projDir # clone project
+		if [ -d "$projDir" ]; then
+			open -a SourceTree $projDir # open SourceTree and add repo
+			subl $projDir MagnedsLibrary Seven Six Shop # open Sublime on Project, including Magneds Libraries
+		fi
+	fi
+}
