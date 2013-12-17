@@ -81,8 +81,8 @@ command -v sha1sum > /dev/null || alias sha1sum="shasum"
 # Trim new lines and copy to clipboard
 alias c="tr -d '\n' | pbcopy"
 
-# Recursively delete `.DS_Store` files
-alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+# Recursively delete `.DS_Store` and `*.orig` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete -or -type f -name '*.orig' -ls -delete"
 
 # ROT13-encode text. Works for decoding, too! ;)
 alias rot13='tr a-zA-Z n-za-mN-ZA-M'
@@ -157,3 +157,5 @@ alias testMagneds='ssh -A test.magneds.com'
 alias optimel1='ssh -A optimel1.magneds.com'
 alias optimel2='ssh -A optimel2.magneds.com'
 alias ssh='~/.bin/ssh'
+alias sp='syncProject all'
+alias cm='/usr/bin/ssh dev.magneds.com "php /sites/marcob.optimel12.dev.magneds.com/tools/flush_memcache.php"'
