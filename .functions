@@ -338,3 +338,16 @@ function hgc() {
 		fi
 	fi
 }
+
+# hg pull & update on all projects
+function hua() {
+	p # Go to Development dir (see .aliases)
+	local PROJ;
+	for PROJ in */.hg; do
+		local PROJDIR="$(dirname $PROJ)"
+		echo -en "\r\033[K${PROJDIR}"
+		cd $PROJDIR
+		hg -q pull -u
+		p
+	done
+}
