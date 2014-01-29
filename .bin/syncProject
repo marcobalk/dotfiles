@@ -41,6 +41,7 @@ elif [ "${1}" = "all" ]; then
 		checkSetup `basename $GPARENT`
 		osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down' && osascript -e "tell application \"Terminal\" to do script \"cd $(dirname $PROJECT) && php autosync.php\" in selected tab of the front window";
 	done
+	osascript -e 'tell application "System Events" to click (first button of (front window of (application process "Terminal")) whose role description is "minimize button")';
 else
 	if [ -f "${1}/tools/autosync.php" ]; then
 		cd "${1}/tools"
