@@ -126,8 +126,25 @@ function installrsub()
 
 function updateVoucher()
 {
+	if [ "$#" -ne 3 ]
+	then
+		echo "Usage: updateVoucher hostName templateName storageId"
+		echo "Example:"
+		echo "   updateVoucher marcob.campina.dev.magneds.com vakantiewoninghuren fl84s93bd8dk1msdrvtpwk5z1"
+		return 1
+	fi
+
 	if [[ ! -d ~/voucher_template ]]; then
 		mkdir -p ~/voucher_template
 	fi
-	curl -X GET http://$1/handler/vouchertemplate.php?template=LIBS_ROOT/template/voucher/$2.html > ~/voucher_template/$3
+	# use --location to follow redirects
+	curl --location -X GET http://$1/handler/vouchertemplate.php?template=LIBS_ROOT/template/voucher/$2.html > ~/voucher_template/$3
+}
+
+function stringToAlnum()
+{
+	if [ "${1}" != "" ]; then
+		echo -n "${1}: "
+		php -r "require_once('/sites/stdlib/latest/mgtoken.php'); echo mgToken::alnumFromString('${1}');"
+	fi
 }
