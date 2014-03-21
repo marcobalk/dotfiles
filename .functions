@@ -296,7 +296,6 @@ function o() {
 # defaults to `patch`
 function np() {
 	git pull --rebase && \
-	rm -rf node_modules && \
 	npm install && \
 	npm test && \
 	npm version ${1:=patch} && \
@@ -351,4 +350,21 @@ function hua() {
 		hg -q pull -u
 		p
 	done
+}
+
+# hg init & clone & SourceTree
+function hgi() {
+	if [[ -z "$1" ]]; then
+		echo "Specify project"
+	else
+		local repoExists=$(hg identify ssh://hg@code.magneds.com/$1 > /dev/null 2>&1) # does repo exists
+		if [ "$?" = 0 ] ; then
+			echo "creating repo \"${1}\""
+			hg init ssh://hg@code.magneds.com/$1
+			hgc $1
+		else
+			echo "${1} already exists!"
+			return
+		fi
+	fi
 }
