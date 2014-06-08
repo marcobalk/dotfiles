@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "marco.balk+$(date +"%H%M%S")@magneds.com" | pbcopy
+echo "Copied to clipboard"
