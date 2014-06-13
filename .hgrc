@@ -1,2 +1,3 @@
 [ui]
 ssh=/usr/bin/ssh
+username = Marco Balk <marco.balk@magneds.com>
