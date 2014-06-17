@@ -56,6 +56,7 @@
 
 	# List contributors with number of commits
 	contributors = shortlog --summary --numbered
+	add-commit = !git add -A && git commit
 
 [apply]
 
