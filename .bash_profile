@@ -51,7 +51,7 @@ complete -W "NSGlobalDomain" defaults;
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
 
 # add syncProduct tab completion
-PROJECTS=$(for PROJECT in ~/Development/*; do if [ -d $PROJECT ] && [ -f "$PROJECT/tools/autosync.php" ]; then basename ${PROJECT}; fi; done;)
+PROJECTS=$(for PROJECT in ~/Development/*; do if [ -d "$PROJECT" ] && [ -f "$PROJECT/tools/autosync.php" ]; then basename ${PROJECT}; fi; done;)
 complete -W "${PROJECTS}" syncProject
 
 # If possible, add tab completion for many more commands
