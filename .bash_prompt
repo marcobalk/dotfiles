@@ -54,7 +54,7 @@ prompt_repo() {
 		[ -n "${s}" ] && s=" [${s}]";
 
 		echo -e "${1}${branchName}${blue}${s}";
-	elif [ $(hg branch 2> /dev/null) ]; then
+	elif [ "$(hg branch 2> /dev/null)" ]; then
 		if ! $(hg summary | grep -q 'commit: (clean)'); then
 			s+='*';
 		fi;
