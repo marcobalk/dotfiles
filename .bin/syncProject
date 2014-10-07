@@ -20,10 +20,16 @@ function checkSetup()
 {
 	PERSON=`whoami`
 	PROJ=`echo $1 | tr '[:upper:]' '[:lower:]'`
+	ADDITION=""
+	if [ -d "${HOME}/Development/${1}/website" ]; then
+		# if Project has website dir than it's a website so add .dev.magneds.com
+		# if not than it's a library
+		ADDITION=".dev.magneds.com"
+	fi
 	/usr/bin/ssh dev.magneds.com bash <<ENDSSH
-	if [ ! -d /sites/$PERSON.$PROJ.dev.magneds.com ]; then
-		echo "creating /sites/${PERSON}.${PROJ}.dev.magneds.com"
-		mkdir -p /sites/$PERSON.$PROJ.dev.magneds.com
+	if [ ! -d /sites/$PERSON.$PROJ$ADDITION ]; then
+		echo "creating /sites/${PERSON}.${PROJ}$ADDITION"
+		mkdir -p /sites/$PERSON.$PROJ$ADDITION
 	fi
 ENDSSH
 }
