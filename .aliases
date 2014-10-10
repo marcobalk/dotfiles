@@ -146,7 +146,7 @@ alias lock="/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSav
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 
-# Faster npm for europeans
+# Faster npm for Europeans
 command -v npm > /dev/null && alias npme="npm --registry http://registry.npmjs.eu/"
 
 # Own aliasses
