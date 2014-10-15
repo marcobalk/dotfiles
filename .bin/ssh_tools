@@ -111,14 +111,44 @@ function installrsub()
 		if [[ ! -d $RSUB_PATH ]]; then
 			mkdir -p $RSUB_PATH
 		fi
-		wget -O $RSUB_FILE https://raw.github.com/aurora/rmate/master/rmate
+		if [[ `which curl` ]]; then
+			curl https://raw.github.com/aurora/rmate/master/rmate > $RSUB_FILE
+		else
+			wget -O $RSUB_FILE https://raw.github.com/aurora/rmate/master/rmate
+		fi
 	else
 		echo "rsub already exists"
 	fi
 	chmod +x $RSUB_FILE
 	. ~/.profile
 	if [[ -e $RSUB_FILE ]]; then
-		echo "rsub intstalled"
+		echo "rsub installed"
+	else
+		echo "something went wrong"
+	fi
+}
+
+function installAck()
+{
+	echo "Trying to install ack"
+	ACK_FILE=~/bin/ack
+	if [[ ! -e $ACK_FILE ]]; then
+		ACK_PATH=$(dirname $ACK_FILE);
+		if [[ ! -d $ACK_PATH ]]; then
+			mkdir -p $ACK_PATH
+		fi
+		if [[ `which curl` ]]; then
+			curl http://beyondgrep.com/ack-2.14-single-file > $ACK_FILE
+		else
+			wget -O $ACK_FILE http://beyondgrep.com/ack-2.14-single-file
+		fi
+	else
+		echo "ack already exists"
+	fi
+	chmod +x $ACK_FILE
+	. ~/.profile
+	if [[ -e $ACK_FILE ]]; then
+		echo "ack installed"
 	else
 		echo "something went wrong"
 	fi
