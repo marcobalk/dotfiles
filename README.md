@@ -74,15 +74,7 @@ When setting up a new Mac, you may want to set some sensible OS X defaults:
 When setting up a new Mac, you may want to install some common [Homebrew](http://brew.sh/) formulae (after installing Homebrew, of course):
 
 ```bash
-brew bundle ~/Brewfile
-```
-
-### Install native apps with `brew cask`
-
-You could also install native apps with [`brew cask`](https://github.com/phinze/homebrew-cask):
-
-```bash
-./.cask
+./brew.sh
 ```
 
 ## Feedback
@@ -113,5 +105,6 @@ Suggestions/improvements
 * [Kevin Suttle](http://kevinsuttle.com/) and his [dotfiles repository](https://github.com/kevinSuttle/dotfiles) and [OSXDefaults project](https://github.com/kevinSuttle/OSXDefaults), which aims to provide better documentation for [`~/.osx`](https://mths.be/osx)
 * [Haralan Dobrev](http://hkdobrev.com/)
 * [Daan van Ham](https://www.facebook.com/dvham) for adding Mercurial output on .bash_prompt
+* [greygore](https://github.com/greygore) for his shorter version of ssh completion
 
 * anyone who [contributed a patch](https://github.com/marcobalk/dotfiles/contributors) or [made a helpful suggestion](https://github.com/marcobalk/dotfiles/issues)
