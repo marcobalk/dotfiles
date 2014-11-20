@@ -106,5 +106,4 @@ Suggestions/improvements
 * [Haralan Dobrev](http://hkdobrev.com/)
 * [Daan van Ham](https://www.facebook.com/dvham) for adding Mercurial output on .bash_prompt
 * [greygore](https://github.com/greygore) for his shorter version of ssh completion
-
 * anyone who [contributed a patch](https://github.com/marcobalk/dotfiles/contributors) or [made a helpful suggestion](https://github.com/marcobalk/dotfiles/issues)
