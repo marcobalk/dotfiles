@@ -153,3 +153,4 @@ alias ssh='~/.bin/ssh'
 alias sp='hua && syncProject all'
 alias cm='/usr/bin/ssh dev.magneds.com "php /sites/marcob.optimel.dev.magneds.com/tools/flush_memcache.php"'
 alias hosts='sudo vi /etc/hosts'
+alias spotify="osascript /Users/marcob/Google\ Drive/Development/Projects/Github/SpotifyControl/SpotifyControl.scpt"
