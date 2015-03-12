@@ -146,6 +146,10 @@ alias lock="/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSav
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 
+# Easily switch between `io.js` and `Node.js`
+alias use-iojs="brew unlink node && brew link --force iojs"
+alias use-node="brew unlink iojs && brew link --force node"
+
 # Own aliasses
 alias devMagneds='ssh -A -R 9876:localhost:9876 dev.magneds.com'
 alias testMagneds='ssh -A test.magneds.com'
