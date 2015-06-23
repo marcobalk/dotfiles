@@ -302,11 +302,12 @@ function hgi() {
 	fi
 }
 
-# alnum function with Python
+# alnum function with PHP
 function alnum() {
 	if [[ -z "$1" ]]; then
 		php -r '$alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"; $id = $alphabet[mt_rand(0, 25)]; for ($i = 0; $i < 24; $i++){$id .= $alphabet[mt_rand(0, 35)];}	echo $id;'
 	else
 		php -r 'if(empty($argv[1])){echo "No paramater supplied"; exit;} $hash = sha1($argv[1], true); if (strlen($hash) != 20) {echo "Invalid hash. Use binary SHA1!"; exit;}$value = "0";$bytes = unpack("C*", $hash);foreach ($bytes as $byte){ $value = bcadd(bcmul($value, 256), $byte);} $digit = bcmod($value, 26);$value = bcdiv($value, 26);$alnum = chr(ord("a")+intval($digit));$alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";for ($i = 0; $i < 24; $i++){ $digit = bcmod($value, 36); $value = bcdiv($value, 36); $alnum .= $alphabet[intval($digit)];}echo $alnum;' "${1}"
 	fi
+	echo "";
 }
