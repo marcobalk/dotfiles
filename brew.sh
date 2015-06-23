@@ -12,7 +12,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 brew update
 
 # Upgrade any already-installed formulae.
-brew upgrade
+brew upgrade --all
 
 # Install GNU core utilities (those that come with OS X are outdated).
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
@@ -68,6 +68,7 @@ brew install hashpump
 brew install hydra
 brew install john
 brew install knock
+brew install netpbm
 brew install nmap
 brew install pngcheck
 brew install socat
@@ -81,6 +82,7 @@ brew install xz
 
 # Install other useful binaries.
 brew install ack
+brew install dark-mode
 #brew install exiv2
 brew install git
 brew install git-lfs
