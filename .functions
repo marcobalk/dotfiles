@@ -276,7 +276,7 @@ function hgc() {
 function hua() {
 	p # Go to Development dir (see .aliases)
 	local PROJ;
-	for PROJ in `find . -type d -name ".hg" -maxdepth 3`; do
+	for PROJ in */.hg; do
 		local PROJDIR="$(dirname $PROJ)"
 		echo -en "\r\033[K${PROJDIR}"
 		cd $PROJDIR
