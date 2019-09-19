@@ -2,9 +2,10 @@
 
 AMOUNT=$1
 LENGTH=$2
+ALPHABET=$3
 
 if [ -z "${AMOUNT}" ] || [ -z "${LENGTH}" ] ; then
-	echo 'Usage: passgen <AMOUNT> <LENGTH>'
+	echo 'Usage: passgen <AMOUNT> <LENGTH> <ALPHABET>'
 	exit 1
 fi
 
@@ -20,4 +21,8 @@ if ! [[ "$LENGTH" =~ ^[0-9]+$ ]] || [ $LENGTH -eq 0 ] ; then
 	exit 1
 fi
 
-LC_ALL=C tr -dc 'A-Za-z0-9_!@#$%^&*()\-+=' <  /dev/urandom | fold -w $LENGTH | head -n $AMOUNT
+if [ -z "${ALPHABET}" ] ; then
+	ALPHABET='A-Za-z0-9_!@#$%^&*()\-+='
+fi
+
+LC_ALL=C tr -dc $ALPHABET <  /dev/urandom | fold -w $LENGTH | head -n $AMOUNT
