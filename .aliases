@@ -147,12 +147,5 @@ alias lock="/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSav
 alias reload="exec $SHELL -l"
 
 # Own aliasses
-alias devMagneds='ssh -A dev.magneds.com'
-alias testMagneds='ssh -A test.magneds.com'
-alias ssh='~/.bin/ssh'
-#alias sp='hua && syncProject all'
-#alias cm='/usr/bin/ssh dev.magneds.com "php /sites/marcob.optimel.dev.magneds.com/tools/flush_memcache.php"'
+#alias ssh='~/.bin/ssh'
 alias hosts='sudo vi /etc/hosts'
-alias spotify="osascript /Users/marcob/Google\ Drive/Development/Projects/Github/SpotifyControl/SpotifyControl.scpt"
-alias updateVouchers='ssh web1.six.magneds.net "cd /sites/fc.six.staging.magneds.net/storage/voucher_template/ && sudo -u apache ./update_vouchers.sh"'
-alias startup='hua && subl && open -a Sourcetree'
